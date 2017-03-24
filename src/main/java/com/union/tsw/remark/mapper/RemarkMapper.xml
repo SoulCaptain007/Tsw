@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.union.tsw.remark.mapper.RemarkMapper" >
+  <resultMap id="BaseResultMap" type="com.union.tsw.remark.pojo.Remark" >
+    <id column="remark_id" property="remarkId" jdbcType="INTEGER" />
+    <result column="remark_time" property="remarkTime" jdbcType="TIMESTAMP" />
+    <result column="remark_content" property="remarkContent" jdbcType="VARCHAR" />
+    <result column="remark_state" property="remarkState" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="book_id" property="bookId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    remark_id, remark_time, remark_content, remark_state, user_id, book_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from remark
+    where remark_id = #{remarkId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAllRemark" resultMap="BaseResultMap">
+  	select  
+  		user_name,book_name,remark_content 
+  	from 
+  		user,book,remark 
+  	where 
+  		remark.book_id=book.book_id and user.user_id=remark.remark_id;
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from remark
+    where remark_id = #{remarkId,jdbcType=INTEGER}
+  </delete>
+  <insert id="saveRemark" parameterType="com.union.tsw.remark.pojo.Remark" >
+    insert into remark (remark_id, remark_content, 
+      remark_state, user_id, book_id
+      )
+    values (#{remarkId,jdbcType=INTEGER}, #{remarkContent,jdbcType=VARCHAR}, 
+      #{remarkState,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.union.tsw.remark.pojo.Remark" >
+    insert into remark
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="remarkId != null" >
+        remark_id,
+      </if>
+      <if test="remarkTime != null" >
+        remark_time,
+      </if>
+      <if test="remarkContent != null" >
+        remark_content,
+      </if>
+      <if test="remarkState != null" >
+        remark_state,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="remarkId != null" >
+        #{remarkId,jdbcType=INTEGER},
+      </if>
+      <if test="remarkTime != null" >
+        #{remarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarkContent != null" >
+        #{remarkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkState != null" >
+        #{remarkState,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.union.tsw.remark.pojo.Remark" >
+    update remark
+    <set >
+      <if test="remarkTime != null" >
+        remark_time = #{remarkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarkContent != null" >
+        remark_content = #{remarkContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkState != null" >
+        remark_state = #{remarkState,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null" >
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where remark_id = #{remarkId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.union.tsw.remark.pojo.Remark" >
+    update remark
+    set remark_time = #{remarkTime,jdbcType=TIMESTAMP},
+      remark_content = #{remarkContent,jdbcType=VARCHAR},
+      remark_state = #{remarkState,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      book_id = #{bookId,jdbcType=INTEGER}
+    where remark_id = #{remarkId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.union.tsw.findShoppingcar.mapper.FindShoppingcarMapper" >
+  <resultMap id="BaseResultMap" type="com.union.tsw.findShoppingcar.pojo.FindShoppingcar" >
+   	<result column="shoppingcar_id" property="shoppingcarId" jdbcType="INTEGER"/>
+   	<result column="book_id" property="bookId" jdbcType="INTEGER"/>
+  	<result column="user_id" property="userId" jdbcType="INTEGER"/>
+    <result column="book_image" property="bookImage" jdbcType="VARCHAR" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="book_price" property="bookPrice" jdbcType="DOUBLE" />
+    <result column="shoppingcar_count" property="shoppingcarCount" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="findByIdShoppingcar" resultMap="BaseResultMap" parameterType="com.union.tsw.findShoppingcar.pojo.FindShoppingcar">
+	select
+	 	t.shoppingcar_id,t.book_name,t.book_image,t.book_price,t.shoppingcar_count 
+	from 
+		(select
+			shoppingcar_id,user_name,book_image,book_name,book_price,shoppingcar_count 
+		from 
+			user,book,shoppingcar 
+		where 
+			user.user_id=shoppingcar.user_id and book.book_id=shoppingcar.book_id and shoppingcar.user_id=#{userId,jdbcType=INTEGER}
+			and shoppingcar_state=1
+		) t;
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap" >
+	select
+	 	t.book_name,t.book_image,t.book_price,t.shoppingcar_count 
+	from 
+		(select
+			user_name,book_image,book_name,book_price,shoppingcar_count,shoppingcar_id 
+		from 
+			user,book,shoppingcar 
+		where 
+			user.user_id=shoppingcar.user_id and book.book_id=shoppingcar.book_id and shoppingcar.user_id=1
+			and shoppingcar_state=1
+		) t;
+  </select>
+  
+  <delete id="deleteShoppingcar"  parameterType="com.union.tsw.findShoppingcar.pojo.FindShoppingcar">
+  	delete from 
+  		(select
+			user_name,book_image,book_name,book_price,shoppingcar_count,shoppingcar_id
+		from 
+			user,book,shoppingcar 
+		where 
+			user.user_id=shoppingcar.user_id and book.book_id=shoppingcar.book_id and shoppingcar.user_id=1
+		) t 
+		where t.shoppingcar_id=1;
+  </delete>
+ </mapper>

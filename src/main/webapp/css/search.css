@@ -1,0 +1,112 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#box {
+	width: 70%;
+	margin: 30px auto;
+	box-shadow: 2px 2px 10px #ccc;
+	position: relative;
+	padding: 10px;
+	font-family: "微软雅黑";
+	color: #444;
+	/*background: rgba(0,0,254,0.05);*/
+}
+
+header {
+	width: 100%;
+	height: 150px;
+}
+
+#logo {
+	width: 15%;
+	height: 120px;
+	float: left;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+#logo img{
+
+	height: 80px;
+}
+#login {
+	width: 35%;
+	float: right;
+	font-size: 16px;
+}
+
+#login a {
+	color: #666;
+	margin: 0 5px;
+	font-size: 13px;
+}
+
+#login a:hover {
+	color: rgba(255, 50, 0, 0.7);
+}
+#main{
+	width: 60%;
+	/*height: 400px;*/
+	margin: auto;
+	margin-bottom: 30px;
+}
+#main dl{
+	/*display: inline-block;*/
+	/*width:400px;*/
+	height: 300px;
+}
+#main dt{
+	width: 40%;
+	float: left;
+}
+#main dd{
+	margin-left: 40px;
+	width: 50%;
+	float: left;
+}
+#main dd p {
+	
+	margin-top: 15px;
+	margin-bottom: 15px;
+	word-wrap:break-word; 
+	word-break:normal;
+}
+#fn{
+	width: 40%;
+	height: 50px;
+	margin: auto;
+}
+#comment{
+	width: 40%;
+	margin: auto;
+	border: 1px solid #444;
+	display: none;
+	padding: 10px;
+}
+#comment p{
+	display: none;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#fn button{ 
+	background: rgba(255,255,0,0.4);
+	border: none;
+	border-radius: 20px;
+	height: 20px;
+	width: 30%;
+}
+
+footer {
+	width: 100%;
+	height: 80px;
+	font-size: 14px;
+	border-top: 1px solid rgba(255, 50, 0, 0.7);
+	padding-top: 20px;
+	margin-top: 30px;
+}
+
+footer p {
+	margin: 10px 0;
+	text-indent: 1em;
+}

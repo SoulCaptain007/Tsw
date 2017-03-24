@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.union.tsw.orderform.mapper.OrderformMapper" >
+
+  <resultMap id="BaseResultMap" type="com.union.tsw.orderform.pojo.Orderform" >
+    <id column="orderform_id" property="orderformId" jdbcType="INTEGER" />
+    <result column="orderform_date" property="orderformDate" jdbcType="TIMESTAMP" />
+    <result column="orderform_state" property="orderformState" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <collection property="orderdetails" ofType="com.union.tsw.orderform.pojo.Orderdetails">
+			<id column="orderdetails_id" property="orderdetailsId" jdbcType="INTEGER" />
+			<result column="orderdetails_count" property="orderdetailsCount" jdbcType="INTEGER" />
+			<result column="orderform_id" property="orderformId" jdbcType="INTEGER" />
+			<result column="book_id" property="bookId" jdbcType="INTEGER" />
+			<association property="book" javaType="com.union.tsw.book.pojo.Book">
+			<id column="book_id" property="bookId" jdbcType="INTEGER" />
+			<result column="book_date" property="bookDate" jdbcType="TIME" />
+			<result column="book_name" property="bookName" jdbcType="VARCHAR" />
+			<result column="book_author" property="bookAuthor" jdbcType="VARCHAR" />
+			<result column="book_press" property="bookPress" jdbcType="VARCHAR" />
+			<result column="book_type" property="bookType" jdbcType="VARCHAR" />
+			<result column="book_info" property="bookInfo" jdbcType="VARCHAR" />
+			<result column="book_image" property="bookImage" jdbcType="VARCHAR" />
+			<result column="book_price" property="bookPrice" jdbcType="DOUBLE" />
+			<result column="book_amount" property="bookAmount" jdbcType="INTEGER" />
+			<result column="book_state" property="bookState" jdbcType="INTEGER" />
+		</association>
+	</collection>
+  </resultMap>
+  
+	
+  <sql id="Base_Column_List" >
+    orderform_id, orderform_date, orderform_state, user_id
+  </sql>
+  
+  <select id="selectAllOrderformByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	select
+		odd.orderform_id as orderform_id,
+		b.book_image as book_image,
+		b.book_name as book_name,
+		b.book_price as book_price,
+		odd.orderdetails_count as orderdetails_count
+	from
+		(
+			select
+				od.user_id,
+				od.orderform_state,
+				ord.orderform_id,
+				ord.orderdetails_count,
+				ord.book_id
+			from
+				orderform as od,
+				orderdetails as ord
+			where
+				od.orderform_id = ord.orderform_id
+		)as odd,
+		book as b
+	where
+		odd.user_id = #{userId} and odd.book_id = b.book_id and odd.orderform_state = 1
+  </select>
+  
+  <insert id="insertIntoOrderform" parameterType="com.union.tsw.orderform.pojo.Orderform" useGeneratedKeys="true" keyProperty="orderformId">
+    insert into 
+    	orderform 
+    		(orderform_date, user_id)
+    values 
+    	(#{orderformDate},#{userId})
+  </insert>
+  
+  <update id="removeOrderformById" parameterType="com.union.tsw.orderform.pojo.Orderform" >
+    update 
+    	orderform
+    set 
+      	orderform_state = 0
+    where 
+    	orderform_id = #{orderformId} and user_id = #{userId}
+  </update>
+  
+  <update id="submitAllOrderformbyUserId" parameterType="java.lang.Integer" >
+    update 
+    	orderform
+    set 
+      	orderform_state = 0
+    where 
+    	user_id = #{userId}
+  </update>
+  <update id="submitAll" parameterType="java.lang.Integer" >
+    update 
+    	orderform
+    set 
+      	orderform_state = 0
+    where 
+    	user_id = #{userId}
+  </update>
+  
+</mapper>

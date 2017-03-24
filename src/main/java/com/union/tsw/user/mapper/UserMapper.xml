@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.union.tsw.user.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.union.tsw.user.pojo.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_password" property="userPassword" jdbcType="VARCHAR" />
+    <result column="user_age" property="userAge" jdbcType="INTEGER" />
+    <result column="user_sex" property="userSex" jdbcType="VARCHAR" />
+    <result column="user_address" property="userAddress" jdbcType="VARCHAR" />
+    <result column="user_date" property="userDate" jdbcType="TIMESTAMP" />
+    <result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+    <result column="user_money" property="userMoney" jdbcType="DOUBLE" />
+    <result column="user_phone" property="userPhone" jdbcType="INTEGER" />
+    <result column="user_state" property="userState" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.union.tsw.user.pojo.User" extends="BaseResultMap" >
+    <result column="user_image" property="userImage" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_name, user_password, user_age, user_sex, user_address, user_date, user_email, 
+    user_money, user_phone, user_state
+  </sql>
+  <sql id="Blob_Column_List" >
+    user_image
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="findAll" resultMap="ResultMapWithBLOBs">
+  		select * from user;
+  </select>
+  
+  <select id="selectByNameAndPassword" resultMap="ResultMapWithBLOBs" parameterType="com.union.tsw.user.pojo.User" >
+    select 
+    	<include refid="Base_Column_List" />
+    from 
+    	user
+    where 
+    	user_name = #{userName} and user_password = #{userPassword}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.union.tsw.user.pojo.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user ( user_name, user_password, 
+      user_age, user_sex, user_address, 
+      user_date, user_email, user_money, 
+      user_phone, user_state, user_image
+      )
+    values ( #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userAge,jdbcType=INTEGER}, #{userSex,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, 
+      #{userDate,jdbcType=TIMESTAMP}, #{userEmail,jdbcType=VARCHAR}, #{userMoney,jdbcType=DOUBLE}, 
+      #{userPhone,jdbcType=INTEGER}, #{userState,jdbcType=INTEGER}, #{userImage,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.union.tsw.user.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPassword != null" >
+        user_password,
+      </if>
+      <if test="userAge != null" >
+        user_age,
+      </if>
+      <if test="userSex != null" >
+        user_sex,
+      </if>
+      <if test="userAddress != null" >
+        user_address,
+      </if>
+      <if test="userDate != null" >
+        user_date,
+      </if>
+      <if test="userEmail != null" >
+        user_email,
+      </if>
+      <if test="userMoney != null" >
+        user_money,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userState != null" >
+        user_state,
+      </if>
+      <if test="userImage != null" >
+        user_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null" >
+        #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null" >
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userDate != null" >
+        #{userDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userMoney != null" >
+        #{userMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=INTEGER},
+      </if>
+      <if test="userState != null" >
+        #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userImage != null" >
+        #{userImage,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="changeUser" parameterType="com.union.tsw.user.pojo.User">
+  		update user
+  		<set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null" >
+        user_age = #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null" >
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null" >
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userDate != null" >
+        user_date = #{userDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=INTEGER},
+      </if>
+      <if test="userState != null" >
+        user_state = #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userImage != null" >
+        user_image = #{userImage,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  		
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.union.tsw.user.pojo.User" >
+    update user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null" >
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userAge != null" >
+        user_age = #{userAge,jdbcType=INTEGER},
+      </if>
+      <if test="userSex != null" >
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userAddress != null" >
+        user_address = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userDate != null" >
+        user_date = #{userDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userEmail != null" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userMoney != null" >
+        user_money = #{userMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=INTEGER},
+      </if>
+      <if test="userState != null" >
+        user_state = #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userImage != null" >
+        user_image = #{userImage,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.union.tsw.user.pojo.User" >
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_date = #{userDate,jdbcType=TIMESTAMP},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_money = #{userMoney,jdbcType=DOUBLE},
+      user_phone = #{userPhone,jdbcType=INTEGER},
+      user_state = #{userState,jdbcType=INTEGER},
+      user_image = #{userImage,jdbcType=LONGVARBINARY}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.union.tsw.user.pojo.User" >
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_age = #{userAge,jdbcType=INTEGER},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR},
+      user_date = #{userDate,jdbcType=TIMESTAMP},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_money = #{userMoney,jdbcType=DOUBLE},
+      user_phone = #{userPhone,jdbcType=INTEGER},
+      user_state = #{userState,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

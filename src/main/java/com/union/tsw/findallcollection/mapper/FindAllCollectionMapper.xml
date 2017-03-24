@@ -1,0 +1,29 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.union.tsw.findallcollection.mapper.FindAllCollectionMapper" >
+  <resultMap id="BaseResultMap" type="com.union.tsw.findallcollection.pojo.FindAllCollection" >
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="collection_id" property="collectionId" jdbcType="INTEGER" />
+    <result column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="book_image" property="bookImage" jdbcType="VARCHAR" />
+    <result column="book_name" property="bookName" jdbcType="VARCHAR" />
+    <result column="book_price" property="bookPrice" jdbcType="DOUBLE" />
+    <result column="collection_date" property="collectionDate" jdbcType="DATE" />
+  </resultMap>
+  
+  <select id="findAllCollection" resultMap="BaseResultMap" >
+	select
+  		user_name,book_name,book_price,book_image,collection_date from user,book,collection
+  	where
+  		user.user_id=collection.user_id and book.book_id =collection.book_id and user.user_id=collection.user_id
+  </select>
+  <select id="findCollectionByUserId" resultMap="BaseResultMap" parameterType="com.union.tsw.findallcollection.pojo.FindAllCollection">
+  	select
+  		user.user_id,user_name,book.book_id,book_name,book_price,book_image,collection_id,collection_date 
+  	from 
+  		user,book,collection
+  	where
+  		user.user_id=collection.user_id and book.book_id =collection.book_id and user.user_id=collection.user_id and user.user_id=#{userId};
+  </select>
+  
+</mapper>
